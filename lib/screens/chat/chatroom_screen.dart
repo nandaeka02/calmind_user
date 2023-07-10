@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:calmind_user/configs/mitras.dart';
 import 'package:calmind_user/screens/bottombar.dart';
-import 'package:calmind_user/screens/chat/chat_screen.dart';
+//import 'package:calmind_user/screens/chat/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class ChatRoomScreen extends StatefulWidget {
   final MitraList transaksi;
@@ -41,8 +41,8 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) => BottomBar(
-                      nPass: 'nilai nPass',
-                      nEmail: 'nilai nEmail',
+                     // nPass: 'nilai nPass',
+                     // nEmail: 'nilai nEmail',
                     )),
             (route) => false,
           );

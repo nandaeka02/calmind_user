@@ -2,7 +2,7 @@ import 'package:calmind_user/configs/mitras.dart';
 import 'package:calmind_user/screens/chat/pembayaran_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -29,89 +29,65 @@ class _ChatScreenState extends State<ChatScreen> {
 
   final List<MitraList> daftarMitra = [
     MitraList(
-      nama: 'John Doe',
-      gelar: 'Sarjana',
-      nomorIzin: '12345',
-      biaya: 'Rp 500.000',
-      foto: 'assets/images/photo2.jpg'
-    ),
+        nama: 'Dr. Tirta Hartomo',
+        gelar: 'Psikolog',
+        nomorIzin: 'No Izin : 738901',
+        biaya: 'Rp 65.000',
+        foto: 'assets/images/photo1.jpg'),
     MitraList(
-      nama: 'Jane Smith',
-      gelar: 'Magister',
-      nomorIzin: '67890',
-      biaya: 'Rp 750.000',
-      foto: 'assets/images/photo1.jpg'
-    ),
+        nama: 'Dr. Ghaida Eka Suci',
+        gelar: 'Psikolog',
+        nomorIzin: 'No Izin : 528902',
+        biaya: 'Rp 150.000',
+        foto: 'assets/images/photo2.jpg'),
     MitraList(
-      nama: 'John Doe',
-      gelar: 'Sarjana',
-      nomorIzin: '12345',
-      biaya: 'Rp 500.000',
-      foto: 'assets/images/photo2.jpg'
-    ),
+        nama: 'Dr. Bertha Kurniati',
+        gelar: 'Psikiater',
+        nomorIzin: 'No Izin : 988902',
+        biaya: 'Rp 55.000',
+        foto: 'assets/images/photo3.jpg'),
     MitraList(
-      nama: 'Jane Smith',
-      gelar: 'Magister',
-      nomorIzin: '67890',
-      biaya: 'Rp 750.000',
-      foto: 'assets/images/photo4.png'
-    ),
+        nama: 'Dr. Hasan Jubaidah',
+        gelar: 'Psikolog',
+        nomorIzin: 'No Izin : 858902',
+        biaya: 'Rp 80.000',
+        foto: 'assets/images/photo4.jpg'),
     MitraList(
-      nama: 'Michael Johnson',
-      gelar: 'Doktor',
-      nomorIzin: '13579',
-      biaya: 'Rp 1.000.000',
-      foto: 'assets/images/photo1.jpg'
-    ),
+        nama: 'Dr. Rina Sugiati',
+        gelar: 'Psikiater',
+        nomorIzin: 'No Izin : 758902',
+        biaya: 'Rp 60.000',
+        foto: 'assets/images/photo5.jpg'),
     MitraList(
-      nama: 'Emily Brown',
-      gelar: 'Sarjana',
-      nomorIzin: '24680',
-      biaya: 'Rp 550.000',
-      foto: 'assets/images/photo2.jpg'
-    ),
+        nama: 'Dr. Lisa Jesicca',
+        gelar: 'Psikiater',
+        nomorIzin: 'No Izin : 848902',
+        biaya: 'Rp 50.000',
+        foto: 'assets/images/photo6.jpg'),
     MitraList(
-      nama: 'David Wilson',
-      gelar: 'Magister',
-      nomorIzin: '97531',
-      biaya: 'Rp 800.000',
-      foto: 'assets/images/photo3.png'
-    ),
+        nama: 'Dr. Lodric Kumawangsa',
+        gelar: 'Psikolog',
+        nomorIzin: 'No Izin : 938902',
+        biaya: 'Rp 80.000',
+        foto: 'assets/images/photo7.jpg'),
     MitraList(
-      nama: 'Sarah Thompson',
-      gelar: 'Doktor',
-      nomorIzin: '86420',
-      biaya: 'Rp 1.200.000',
-      foto: 'assets/images/photo1.jpg'
-    ),
+        nama: 'Dr. Upin Katop',
+        gelar: 'Psikolog',
+        nomorIzin: 'No Izin : 868902',
+        biaya: 'Rp 65.000',
+        foto: 'assets/images/photo8.jpg'),
     MitraList(
-      nama: 'Andrew Lee',
-      gelar: 'Sarjana',
-      nomorIzin: '56789',
-      biaya: 'Rp 600.000',
-      foto: 'assets/images/photo4.png'
-    ),
+        nama: 'Dr. Vrindavan Kumaladi',
+        gelar: 'Psikiater',
+        nomorIzin: 'No Izin : 718902',
+        biaya: 'Rp 70.000',
+        foto: 'assets/images/photo9.jpg'),
     MitraList(
-      nama: 'Olivia Davis',
-      gelar: 'Magister',
-      nomorIzin: '43210',
-      biaya: 'Rp 850.000',
-      foto: 'assets/images/photo3.png'
-    ),
-    MitraList(
-      nama: 'Daniel Taylor',
-      gelar: 'Doktor',
-      nomorIzin: '24680',
-      biaya: 'Rp 1.500.000',
-      foto: 'assets/images/photo2.jpg'
-    ),
-    MitraList(
-      nama: 'Sophia Johnson',
-      gelar: 'Sarjana',
-      nomorIzin: '13579',
-      biaya: 'Rp 550.000',
-      foto: 'assets/images/photo1.jpg'
-    ),
+        nama: 'Dr. Helpme UnderWater',
+        gelar: 'Psikiater',
+        nomorIzin: 'No Izin : 858902',
+        biaya: 'Rp 75.000',
+        foto: 'assets/images/photo10.jpg'),
   ];
 
   @override
@@ -259,5 +235,3 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
-
-

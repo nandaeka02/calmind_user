@@ -1,9 +1,9 @@
 import 'package:calmind_user/configs/mitras.dart';
-import 'package:calmind_user/screens/chat/chat_screen.dart';
+//import 'package:calmind_user/screens/chat/chat_screen.dart';
 import 'package:calmind_user/screens/chat/invoice_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class PembayaranScreen extends StatefulWidget {
   final MitraList transaksi;
@@ -88,7 +88,7 @@ class _PembayaranScreenState extends State<PembayaranScreen> {
               style: TextStyle(fontSize: 14),
             ),
             Text(
-              'Total Pembayaran: Rp. ${widget.transaksi.biaya}',
+              'Total Pembayaran:  ${widget.transaksi.biaya}',
               // 'Total : Rp 10.000',
               style: TextStyle(fontSize: 14),
             ),
@@ -125,9 +125,7 @@ class _PembayaranScreenState extends State<PembayaranScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          InvoiceScreen(
-                            transaksi: widget.transaksi
-                            ),
+                          InvoiceScreen(transaksi: widget.transaksi),
                     ),
                   ); // Replace with false if payment is unsuccessful
                 },

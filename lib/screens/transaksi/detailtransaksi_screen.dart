@@ -4,7 +4,7 @@ import 'package:calmind_user/configs/transaksi.dart';
 import 'package:calmind_user/screens/chat/pembayaran_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class DetailTransaksiScreen extends StatefulWidget {
   // const DetailTransaksiScreen({super.key});
@@ -61,15 +61,15 @@ class _DetailTransaksiScreenState extends State<DetailTransaksiScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 Text(
-                  'Detail Transaksi:',
+                  'Detail Transaksi :',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 2),
                 Text(
                   // '${transaksi.waktuTransaksi}',
-                  'tanggal',
+                  '12 Mei 2023',
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 0),
@@ -77,38 +77,40 @@ class _DetailTransaksiScreenState extends State<DetailTransaksiScreen> {
                   'Biaya: Rp. ${widget.transaksi.biaya}',
                   style: TextStyle(fontSize: 16),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 Text(
-                  'Detail Pembayaran:',
+                  'Detail Pembayaran :',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 12),
                 widget.transaksi.status == 'Lunas'
-                    ? Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFF12CE48),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.check,
-                              color: Colors.white,
-                              size: 23,
-                            ),
-                            SizedBox(width: 2),
-                            Text(
-                              'Lunas',
-                              style: TextStyle(
+                    ? Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Color(0xFF12CE48),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.check,
                                 color: Colors.white,
-                                fontSize: 20,
+                                size: 23,
                               ),
-                            ),
-                          ],
+                              SizedBox(width: 2),
+                              Text(
+                                'Lunas',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     : Column(

@@ -2,7 +2,7 @@ import 'package:calmind_user/screens/registerandlogin_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});

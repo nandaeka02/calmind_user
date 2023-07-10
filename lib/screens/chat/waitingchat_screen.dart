@@ -4,7 +4,7 @@ import 'package:calmind_user/configs/mitras.dart';
 import 'package:calmind_user/screens/chat/chatroom_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class WaitingChatScreen extends StatefulWidget {
   final MitraList transaksi;
@@ -17,7 +17,7 @@ class WaitingChatScreen extends StatefulWidget {
 }
 
 class _WaitingChatScreenState extends State<WaitingChatScreen> {
-  int _countdownSeconds = 5;
+  int _countdownSeconds = 90;
   Timer? _countdownTimer;
 
   @override

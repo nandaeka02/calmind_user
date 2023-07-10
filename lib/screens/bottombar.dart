@@ -5,17 +5,23 @@ import 'package:calmind_user/screens/profil/profil_screen.dart';
 import 'package:calmind_user/screens/transaksi/transaksi_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<String?> getApiResponse() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('api_response');
+}
 
 class BottomBar extends StatefulWidget {
-  final String nPass;
-  final String nEmail;
+  // final String nPass;
+  // final String nEmail;
 
-  const BottomBar({
-    Key? key,
-    required this.nPass,
-    required this.nEmail,
-  }) : super(key: key);
+  // const BottomBar({
+  //   Key? key,
+  //   required this.nPass,
+  //   required this.nEmail,
+  // }) : super(key: key);
 
   @override
   State<BottomBar> createState() => _BottomBarState();
@@ -24,9 +30,25 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
 
+  String? apiResponse;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    String? response = await getApiResponse();
+    setState(() {
+      apiResponse = response;
+    });
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      print(apiResponse);
     });
   }
 

@@ -4,7 +4,7 @@ import 'package:calmind_user/screens/onboarding_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

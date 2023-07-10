@@ -2,7 +2,7 @@ import 'package:calmind_user/configs/transaksi.dart';
 import 'package:calmind_user/screens/transaksi/detailtransaksi_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class TransaksiScreen extends StatefulWidget {
   const TransaksiScreen({super.key});
@@ -12,7 +12,6 @@ class TransaksiScreen extends StatefulWidget {
 }
 
 class _TransaksiScreenState extends State<TransaksiScreen> {
-
   @override
   void initState() {
     tmp = transaksiList;
@@ -21,61 +20,75 @@ class _TransaksiScreenState extends State<TransaksiScreen> {
 
   List<TransaksiList> transaksiList = [
     TransaksiList(
-        nama: 'Dr. Alamsyah',
+        nama: 'Dr. Tirta Hartomo',
         gelar: 'Psikolog',
         nomorIzin: '123456',
-        biaya: '100.000',
+        biaya: '65.000',
         foto: 'assets/images/photo1.jpg',
-        status: 'Lunas'),
+        status: 'Belum Dibayar'),
     TransaksiList(
-        nama: 'Dr. Alamsyah',
+        nama: 'Dr. Ghaida Eka Suci',
         gelar: 'Psikolog',
         nomorIzin: '123456',
-        biaya: '100.000',
+        biaya: '150.000',
         foto: 'assets/images/photo2.jpg',
+        status: 'Belum Dibayar'),
+    TransaksiList(
+        nama: 'Dr. Bertha Kurniati',
+        gelar: 'Psikiater',
+        nomorIzin: '123456',
+        biaya: '55.000',
+        foto: 'assets/images/photo3.jpg',
+        status: 'Belum Dibayar'),
+    TransaksiList(
+        nama: 'Dr. Hasan Jubaidah',
+        gelar: 'Psikolog',
+        nomorIzin: '123456',
+        biaya: '80.000',
+        foto: 'assets/images/photo4.jpg',
+        status: 'Belum Dibayar'),
+    TransaksiList(
+        nama: 'Dr. Rina Sugiati',
+        gelar: 'Psikiater',
+        nomorIzin: '123456',
+        biaya: '60.000',
+        foto: 'assets/images/photo5.jpg',
         status: 'Lunas'),
     TransaksiList(
-        nama: 'Dr. Alamsyah',
-        gelar: 'Psikolog',
+        nama: 'Dr. Lisa Jesicca',
+        gelar: 'Psikiater',
         nomorIzin: '123456',
-        biaya: '100.000',
-        foto: 'assets/images/photo3.png',
+        biaya: '50.000',
+        foto: 'assets/images/photo6.jpg',
         status: 'Lunas'),
     TransaksiList(
-        nama: 'Dr. Alamsyah',
+        nama: 'Dr. Lodric Kumawangsa',
         gelar: 'Psikolog',
         nomorIzin: '123456',
-        biaya: '100.000',
-        foto: 'assets/images/photo4.png',
-        status: 'Belum Dibayar'),
+        biaya: '80.000',
+        foto: 'assets/images/photo7.jpg',
+        status: 'Lunas'),
     TransaksiList(
-        nama: 'Dr. Alamsyah',
+        nama: 'Dr. Upin Katop',
         gelar: 'Psikolog',
         nomorIzin: '123456',
-        biaya: '100.000',
-        foto: 'assets/images/photo4.png',
-        status: 'Belum Dibayar'),
+        biaya: '65.000',
+        foto: 'assets/images/photo8.jpg',
+        status: 'Lunas'),
     TransaksiList(
-        nama: 'Dr. Alamsyah',
-        gelar: 'Psikolog',
+        nama: 'Dr. Vrindavan Kumaladi',
+        gelar: 'Psikiater',
         nomorIzin: '123456',
-        biaya: '100.000',
-        foto: 'assets/images/photo4.png',
-        status: 'Belum Dibayar'),
+        biaya: '70.000',
+        foto: 'assets/images/photo9.jpg',
+        status: 'Lunas'),
     TransaksiList(
-        nama: 'Dr. Alamsyah',
-        gelar: 'Psikolog',
+        nama: 'Dr. Helpme UnderWater',
+        gelar: 'Psikiater',
         nomorIzin: '123456',
-        biaya: '100.000',
-        foto: 'assets/images/photo4.png',
-        status: 'Belum Dibayar'),
-    TransaksiList(
-        nama: 'Dr. Alamsyah',
-        gelar: 'Psikolog',
-        nomorIzin: '123456',
-        biaya: '100.000',
-        foto: 'assets/images/photo4.png',
-        status: 'Belum Dibayar'),
+        biaya: '75.000',
+        foto: 'assets/images/photo10.jpg',
+        status: 'Lunas'),
   ];
 
   List<TransaksiList> tmp = [];
@@ -157,7 +170,8 @@ class _TransaksiScreenState extends State<TransaksiScreen> {
                               // Filter transaksi yang belum dibayar
                               setState(() {
                                 // filterStatus = FilterStatus.lunas;
-                                tmp = filterTransaksiListByStatus('Belum Dibayar');
+                                tmp = filterTransaksiListByStatus(
+                                    'Belum Dibayar');
                               });
                               Navigator.of(context).pop();
                             },

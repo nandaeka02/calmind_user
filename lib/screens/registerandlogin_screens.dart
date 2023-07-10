@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:calmind_user/configs/colors.dart';
 import 'package:calmind_user/screens/bottombar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterAndLoginScreen extends StatefulWidget {
   const RegisterAndLoginScreen({super.key});
@@ -11,7 +15,8 @@ class RegisterAndLoginScreen extends StatefulWidget {
   State<RegisterAndLoginScreen> createState() => _RegisterAndLoginScreenState();
 }
 
-class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with SingleTickerProviderStateMixin {
+class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool _isLoginTab = true;
 
@@ -37,23 +42,100 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
     });
   }
 
-  final _loginFormKey = GlobalKey<FormState>();
-  final _registerFormKey = GlobalKey<FormState>();
+  final _loginFormKey =
+      GlobalKey<FormState>(); //      BE #1  login (ISIAN AKAN MASUKA KE DB)
+  final _registerFormKey =
+      GlobalKey<FormState>(); //      BE #1 register(ISIAN AKAN MASUKA KE DB)
 
-  String first_name = '';
-  String last_name = '';
+//STRING DISESUAIKAN DENGAN CONTROLLER BE USER
+
   String email = '';
   String password = '';
   String confirmPassword = '';
-  String phone_number = '';
-  String address = '';
-  String country = '';
-  String city = '';
-  String postal_code = '';
-  DateTime birthDate = DateTime.now();
-  String gender = '';
-  String degree = '';
-  String license_number = '';
+
+  //BE LOGIN ST
+
+  Future<void> saveApiResponse(String response) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('api_response', response);
+  }
+
+  void _login() async {
+    final form = _loginFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      var url = Uri.parse('http://192.168.100.42:8000/api/user/login');
+      var response = await http.post(url, body: {
+        'email': email,
+        'password': password,
+      });
+
+      // if (response.statusCode == 200) {
+      // Permintaan berhasil
+      // print(response.body);
+      // Lakukan logika setelah berhasil login
+      // PRINT DEBIG CONSOLE
+
+      if (response.statusCode == 200) {
+        // Permintaan berhasil
+        var jsonResponse = json.decode(response.body);
+        print(jsonResponse['body']['id']);
+        jsonResponse['body']['id'];
+        await saveApiResponse(jsonResponse['body']['id'].toString());
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BottomBar(),
+          ),
+        );
+      } else {
+        // Permintaan gagal
+        print('Error: ${response.statusCode}');
+      }
+    }
+  }
+
+  void saveUserID(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('id', id);
+  }
+
+  void _goToRegister() {
+    // Navigasi ke halaman Register
+  }
+
+// BE END LOGIN
+
+// BE START REGISTER
+
+  void _register() async {
+    final form = _registerFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      var url = Uri.parse('http://192.168.100.42:8000/api/user/register');
+      var response = await http.post(url, body: {
+        'email': email,
+        'password': password,
+      });
+
+      if (response.statusCode == 200) {
+        // Permintaan berhasil
+        print(response.body);
+        // Lakukan logika setelah berhasil login
+        // PRINT DEBIG CONSOLE
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Registrasi berhasil!'),
+          ),
+        );
+        // tampilkan pesan sukses
+      } else {
+        // Permintaan gagal
+        print('Error: ${response.statusCode}');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +293,7 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
 
   Widget _buildLoginForm() {
     return Form(
-      key: _loginFormKey,
+      key: _loginFormKey, // BE key login
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -241,7 +323,7 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
                 return 'Please enter your email';
               }
               return null;
-            },
+            }, //BE STRING 1
             onSaved: (value) {
               email = value!;
             },
@@ -272,7 +354,7 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
                 return 'Please enter your password';
               }
               return null;
-            },
+            }, //BE STRING
             onSaved: (value) {
               password = value!;
             },
@@ -292,7 +374,7 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
                 const EdgeInsets.symmetric(vertical: 10),
               ),
             ),
-            onPressed: _login,
+            onPressed: _login, //#3 fungsi be TOMBOL LOGIN
             child: const Text(
               'Log in',
               style: TextStyle(
@@ -310,7 +392,7 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
     return Padding(
       padding: const EdgeInsets.only(bottom: 1.0),
       child: Form(
-        key: _registerFormKey,
+        key: _registerFormKey, // BE key register
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -342,6 +424,7 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
                 return null;
               },
               onSaved: (value) {
+                //BE STRING
                 email = value!;
               },
             ),
@@ -373,6 +456,7 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
                 return null;
               },
               onSaved: (value) {
+                //BE STRING
                 password = value!;
               },
             ),
@@ -401,12 +485,13 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
                 if (value!.isEmpty) {
                   return 'Please enter your password';
                 }
-                if (value != password) {
-                  return 'Passwords do not match';
-                }
+                // if (value == password) {
+                //   return 'Passwords do not match';
+                // }
                 return null;
               },
               onSaved: (value) {
+                //BE STRING
                 confirmPassword = value!;
               },
             ),
@@ -439,42 +524,43 @@ class _RegisterAndLoginScreenState extends State<RegisterAndLoginScreen> with Si
       ),
     );
   }
-
-  void _login() {
-    final form = _loginFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      // Perform login logic here
-      if ((email == "user@gmail.com") && (password == "123")) {
-        // maka berhasil login
-        print('Berhasil Login');
-        // pindah ke halaman home
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BottomBar(
-              nPass: password,
-              nEmail: email,
-            ),
-          ),
-        );
-      } else {
-        print('Email atau password salah');
-      }
-    }
-  }
-
-  void _register() {
-    final form = _registerFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      // Perform register logic here
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RegisterAndLoginScreen(),
-        ),
-      );
-    }
-  }
 }
+
+// void _login() {
+//   final form = _loginFormKey.currentState;
+//   if (form!.validate()) {
+//     form.save();
+//     // Perform login logic here
+//     if ((email == "user@gmail.com") && (password == "123")) {
+//       // maka berhasil login
+//       print('Berhasil Login');
+//       // pindah ke halaman home
+//       Navigator.pushReplacement(
+//         context,
+//         MaterialPageRoute(
+//           builder: (context) => BottomBar(
+//             nPass: password,
+//             nEmail: email,
+//           ),
+//         ),
+//       );
+//     } else {
+//       print('Email atau password salah');
+//     }
+//   }
+// }
+
+//   void _register() {
+//     final form = _registerFormKey.currentState;
+//     if (form!.validate()) {
+//       form.save();
+//       // Perform register logic here
+//       Navigator.pushReplacement(
+//         context,
+//         MaterialPageRoute(
+//           builder: (context) => RegisterAndLoginScreen(),
+//         ),
+//       );
+//     }
+//   }
+// }

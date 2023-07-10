@@ -2,7 +2,7 @@ import 'package:calmind_user/configs/mitras.dart';
 import 'package:calmind_user/screens/chat/waitingchat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+//import 'package:flutter/src/widgets/placeholder.dart';
 
 class InvoiceScreen extends StatefulWidget {
   final MitraList transaksi;

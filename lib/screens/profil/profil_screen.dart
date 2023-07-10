@@ -1,36 +1,78 @@
 import 'package:calmind_user/screens/registerandlogin_screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<String?> getApiResponse() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('api_response');
+}
 
 class ProfilScreen extends StatefulWidget {
-  const ProfilScreen({super.key});
+  const ProfilScreen({Key? key}) : super(key: key);
+  //const EditProfileScreen({super.key});
 
   @override
-  State<ProfilScreen> createState() => _ProfilScreenState();
+  _ProfilScreenState createState() => _ProfilScreenState();
 }
 
 class _ProfilScreenState extends State<ProfilScreen> {
-  TextEditingController _namaLengkapController = TextEditingController();
-  TextEditingController _jenisKelaminController = TextEditingController();
-  TextEditingController _tanggalLahirController = TextEditingController();
-  TextEditingController _golonganDarahController = TextEditingController();
-  TextEditingController _nomorHandphoneController = TextEditingController();
+  final _editFormKey = GlobalKey<FormState>();
 
-  void _simpanData() {
-    // Mendapatkan nilai dari TextFormField yang telah diisi
-    // String namaLengkap = _namaLengkapController.text;
-    // String jenisKelamin = _jenisKelaminController.text;
-    // String tanggalLahir = _tanggalLahirController.text;
-    // String golonganDarah = _golonganDarahController.text;
-    // String nomorHandphone = _nomorHandphoneController.text;
+  String namaLengkap = '';
+  String jenisKelamin = '';
+  String tanggalLahir = '';
+  String negara = '';
+  String nomorHandphone = '';
 
-    // Lakukan operasi penyimpanan data di sini (misalnya menyimpan ke database atau file)
+  String? apiResponse;
 
-    // Menampilkan snackbar sebagai konfirmasi penyimpanan data
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Data berhasil disimpan')),
-    );
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    String? response = await getApiResponse();
+    setState(() {
+      apiResponse = response;
+    });
+  }
+
+  void _ProfilScreen(String? user_id) async {
+    final form = _editFormKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      var url = Uri.parse(
+          'http://192.168.100.42:8000/api/user/profile/updateprofile/${user_id}');
+      var response = await http.post(url, body: {
+        'first_name': namaLengkap,
+        'gender': jenisKelamin,
+        'birthdate': tanggalLahir,
+        'country': negara,
+        'phone_number': nomorHandphone,
+      });
+
+      if (response.statusCode == 200) {
+        // Permintaan berhasil
+        print(response.body);
+        print(apiResponse);
+
+        // Show SnackBar
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Profil Anda sudah berhasil diubah!'),
+          ),
+        );
+      } else {
+        // Permintaan gagal
+        print('Error: ${response.statusCode}');
+        print(response.body);
+        print(apiResponse);
+      }
+    }
   }
 
   @override
@@ -55,13 +97,13 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
-                'Nanda Coding',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              // const Text(
+              //   'user760',
+              //   style: TextStyle(
+              //     fontSize: 24,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
               const SizedBox(height: 20),
               ElevatedButton.icon(
                 onPressed: () {
@@ -75,18 +117,18 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pop(); // Tutup dialog
+                              Navigator.of(context).pop();
                             },
                             child: const Text('Cancel'),
                           ),
                           TextButton(
                             onPressed: () {
-                              // Tambahkan logika logout di sini
-                              // ...
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
-                                    builder: (_) => const RegisterAndLoginScreen()),
-                              ); // Tutup dialog
+                                  builder: (_) =>
+                                      const RegisterAndLoginScreen(),
+                                ),
+                              );
                             },
                             child: const Text('Logout'),
                           ),
@@ -98,8 +140,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 icon: const Icon(Icons.logout),
                 label: const Text('Logout'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.red, // Mengubah warna latar belakang menjadi merah
+                  backgroundColor: Colors.red,
                 ),
               ),
               const SizedBox(height: 20),
@@ -125,108 +166,163 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Nama Lengkap:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 5),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
+                child: Form(
+                  key: _editFormKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Nama Lengkap:',
+                        style: TextStyle(fontSize: 16),
                       ),
-                      child: TextFormField(
-                        controller: _namaLengkapController,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                          border: InputBorder.none,
+                      const SizedBox(height: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your Name';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            namaLengkap = value!;
+                          },
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Jenis Kelamin:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 5),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Jenis Kelamin:',
+                        style: TextStyle(fontSize: 16),
                       ),
-                      child: TextFormField(
-                        controller: _jenisKelaminController,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                          border: InputBorder.none,
+                      const SizedBox(height: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your gender';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            jenisKelamin = value!;
+                          },
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Tanggal Lahir:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 5),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Tanggal Lahir:',
+                        style: TextStyle(fontSize: 16),
                       ),
-                      child: TextFormField(
-                        controller: _tanggalLahirController,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                          border: InputBorder.none,
+                      const SizedBox(height: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your BirthDate';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            tanggalLahir = value!;
+                          },
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Golongan Darah:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 5),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Negara:',
+                        style: TextStyle(fontSize: 16),
                       ),
-                      child: TextFormField(
-                        controller: _golonganDarahController,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                          border: InputBorder.none,
+                      const SizedBox(height: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your Country';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            negara = value!;
+                          },
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Nomor Handphone:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 5),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Nomor Handphone:',
+                        style: TextStyle(fontSize: 16),
                       ),
-                      child: TextFormField(
-                        controller: _nomorHandphoneController,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                          border: InputBorder.none,
+                      const SizedBox(height: 5),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
+                            border: InputBorder.none,
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Please enter your Number';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            nomorHandphone = value!;
+                          },
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               ElevatedButton(
-                onPressed: _simpanData,
+                onPressed: () {
+                  _ProfilScreen(apiResponse);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('Profil Anda sudah berhasil diubah!'),
+                    ),
+                  );
+                },
                 child: Text('Simpan Data'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF6869ac),
